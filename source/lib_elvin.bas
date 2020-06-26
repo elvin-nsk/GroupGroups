@@ -1,7 +1,7 @@
 Attribute VB_Name = "lib_elvin"
 '=======================================================================================
 ' Модуль:            lib_elvin
-' Версия:            2020.06.22
+' Версия:            2020.06.26
 ' Автор:             elvin-nsk (me@elvin.nsk.ru)
 ' Использован код:   dizzy (из макроса CtC), Alex Vakulenko
 '                    и др.
@@ -21,6 +21,8 @@ Private Type type_LayerProps
   Printable As Boolean
   Editable As Boolean
 End Type
+
+Private startTime#
 
 '=======================================================================================
 ' публичные переменные
@@ -803,8 +805,8 @@ Function IsStrInArr(ByVal stringToBeFound$, Arr As Variant) As Boolean
 End Function
 
 'является ли число чётным :) Что такое Even и Odd запоминать лень...
-Function IsChet(ByVal x) As Boolean
-  If x Mod 2 = 0 Then IsChet = True Else IsChet = False
+Function IsChet(ByVal X) As Boolean
+  If X Mod 2 = 0 Then IsChet = True Else IsChet = False
 End Function
 
 'делится ли Number на Divider нацело
@@ -825,6 +827,13 @@ End Function
 'случайное целое от LowerBound  до UpperBound
 Function RndInt(LowerBound As Long, UpperBound As Long) As Long
   RndInt = Int((UpperBound - LowerBound + 1) * Rnd + LowerBound)
+End Function
+
+Function MeasureStart()
+  startTime = Timer
+End Function
+Function MeasureFinish(Optional Message$ = "")
+  Debug.Print Message & CStr(Round(Timer - startTime, 3)) & " секунд"
 End Function
 
 '=======================================================================================
