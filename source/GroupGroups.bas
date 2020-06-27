@@ -37,11 +37,13 @@ Sub Start()
   End If
   
   BoostStart "Группирование групп", RELEASE
+  frm_Progress.Caption = "Группирование групп"
   
   GroupRanges SecondPass(FirstPass(tRange))
   
 ExitSub:
   BoostFinish
+  frm_Progress.Finish
   Exit Sub
 
 ErrHandler:
@@ -66,6 +68,7 @@ Private Function SecondPass(ColRanges As Collection) As Collection
   Dim i&
   Set SecondPass = New Collection
   For Each tRange In ColRanges
+    frm_Progress.UpdateMax ColRanges.Count
     Set tCol = CollectOverlaps(tRange, Second)
     For i = 1 To tCol.Count 'объединяем коллекции
       SecondPass.Add tCol(i)
