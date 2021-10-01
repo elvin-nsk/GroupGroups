@@ -16,7 +16,7 @@ Attribute VB_Exposed = False
 
 '=======================================================================================
 ' Форма            : frm_Progress
-' Версия           : 2020.06.27
+' Версия           : 2020.07.14
 ' Авторы           : https://www.erlandsendata.no
 '                    доработал elvin-nsk (me@elvin.nsk.ru)
 ' Назначение:      : отображение прогресс-бара
@@ -35,7 +35,7 @@ Dim Iter#
 '=======================================================================================
 
 'прогресс в виде десятичной дроби (напр. "0.3" = 30%)
-Sub UpdateDec(Dec!)
+Sub UpdateDec(ByVal Dec!)
   Update Dec
 End Sub
 
@@ -52,7 +52,7 @@ Sub UpdateMax(ByVal Max#)
 End Sub
 
 'прогресс в виде процентов (напр. "15" = 15%)
-Sub UpdatePct(Pct As Byte)
+Sub UpdatePct(ByVal Pct As Byte)
   If Pct > 100 Then Pct = 100
   Update Pct / 100
 End Sub
@@ -76,6 +76,14 @@ Private Sub UserForm_Initialize()
   Iter = 0
 End Sub
 
+'отключаем X-unload
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+  If CloseMode = VbQueryClose.vbFormControlMenu Then
+    Cancel = True
+    Me.Hide
+  End If
+End Sub
+
 Private Sub Update(Dec!)
   If Dec < 0 Then Dec = Abs(Dec)
   If Dec > 1 Then Dec = 1
@@ -83,6 +91,5 @@ Private Sub Update(Dec!)
     .lblDone.Width = Dec * (.lblRemain.Width - 2)
     .lblPct.Caption = Format(Dec, "0%")
   End With
-  'The DoEvents statement is responsible for the form updating
-  DoEvents
+  DoEvents 'The DoEvents statement is responsible for the form updating
 End Sub
